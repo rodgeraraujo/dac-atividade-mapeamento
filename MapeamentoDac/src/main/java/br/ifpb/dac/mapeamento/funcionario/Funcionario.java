@@ -4,19 +4,30 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.OneToMany;
 
 /**
  *
- * @author IFPB
+ * @author Fernanda
  */
 @Entity
 public class Funcionario implements Serializable{
+
     @Id
+    @GeneratedValue
     private String cpf;
     private String rg;
     private float salario;
+    
+    @OneToMany(mappedBy = "proj", targetEntity = TrabalhaProjeto.class)
+    @Basic
+    private List<Projeto> projetos;
 
     public Funcionario() {
+
     }
 
     public Funcionario(String cpf, String rg, float salario) {
@@ -49,12 +60,20 @@ public class Funcionario implements Serializable{
         this.salario = salario;
     }
 
+    public List<Projeto> getProjetos() {
+        return projetos;
+    }
+
+    public void setProjetos(List<Projeto> projetos) {
+        this.projetos = projetos;
+    }
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 13 * hash + Objects.hashCode(this.cpf);
         hash = 13 * hash + Objects.hashCode(this.rg);
         hash = 13 * hash + Float.floatToIntBits(this.salario);
+        hash = 83 * hash + Objects.hashCode(this.projetos);
         return hash;
     }
 
@@ -77,6 +96,9 @@ public class Funcionario implements Serializable{
             return false;
         }
         if (!Objects.equals(this.rg, other.rg)) {
+            return false;
+        }
+        if (!Objects.equals(this.projetos, other.projetos)) {
             return false;
         }
         return true;

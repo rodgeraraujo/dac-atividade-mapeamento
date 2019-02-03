@@ -7,16 +7,51 @@ import java.util.Objects;
  *
  * @author IFPB
  */
+@Entity
+@IdClass(TrabalhaProjetoChave.class)
 public class TrabalhaProjeto {
+
+    @Id
+    @Column(insertable = false, updatable = false)
+    private int func_id;
+    @Id
+    @Column(insertable = false, updatable = false)
+    private int proj_id;
     private Date horasTrabalhadas;
     private Date dataIngresso;
+
+    @ManyToOne
+    @JoinColumn(name = "func_id")
+    private Funcionario func;
+    @ManyToOne 
+    @JoinColumn(name = "proj_id")
+    private Projeto proj;
 
     public TrabalhaProjeto() {
     }
 
-    public TrabalhaProjeto(Date horasTrabalhadas, Date dataIngresso) {
+    public TrabalhaProjeto(Date horasTrabalhadas, Date dataIngresso, Funcionario func, Projeto proj) {
+        this();
         this.horasTrabalhadas = horasTrabalhadas;
         this.dataIngresso = dataIngresso;
+        this.projeto = proj;
+        this.funcionario = func;
+    }
+
+    public int getFuncionarioID() {
+        return func_id;
+    }
+
+    public void setFuncionarioID(int func_id) {
+        this.func_id = func_id;
+    }
+
+    public int getProjetoID() {
+        return proj_id;
+    }
+
+    public void setProjetoID(int proj_id) {
+        this.proj_id = proj_id;
     }
 
     public Date getHorasTrabalhadas() {
@@ -34,6 +69,22 @@ public class TrabalhaProjeto {
     public void setDataIngresso(Date dataIngresso) {
         this.dataIngresso = dataIngresso;
     }
+
+    public Projeto getProjeto() {
+        return proj;
+    }
+
+    public void setProjeto(Projeto proj) {
+        this.proj = proj;
+    }
+
+    public Funcionario getFuncionario() {
+        return funci;
+    }
+
+    public void setFuncionario(Funcionario func) {
+        this.func = func;
+    }  
 
     @Override
     public int hashCode() {
